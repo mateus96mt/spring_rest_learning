@@ -1,7 +1,6 @@
 package com.mateus.cursomc;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -9,13 +8,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.mateus.cursomc.domain.Categoria;
+import com.mateus.cursomc.domain.Produto;
 import com.mateus.cursomc.repositories.CategoriaRepository;
+import com.mateus.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner{
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -25,14 +29,26 @@ public class CursomcApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		List<Categoria> categorias = new ArrayList<Categoria>();
+		Categoria cat1 = new Categoria(null, "Informática");
+		Categoria cat2 = new Categoria(null, "Escritório");
 		
-		categorias.add(new Categoria(null, "Informática"));
-		categorias.add(new Categoria(null, "Escritório"));
 		
-		categoriaRepository.saveAll(categorias);
+		Produto p1 = new Produto(null, "Computador", 2000.00);
+		Produto p2 = new Produto(null, "Impressora", 800.00);
+		Produto p3 = new Produto(null, "Mouse", 80.00);
+		
+		p1.getCategorias().addAll(Arrays.asList(cat1));
+		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
+		p3.getCategorias().addAll(Arrays.asList(cat1));
+		
+		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
+		cat2.getProdutos().addAll(Arrays.asList(p2));
+		
+		/*salvando todas as categorias no banco*/
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		
+		/*salvando todas os produtos no banco*/
+		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
 	}
-
-	
-	
 }
