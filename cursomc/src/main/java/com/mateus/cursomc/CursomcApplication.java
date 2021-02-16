@@ -25,6 +25,7 @@ public class CursomcApplication implements CommandLineRunner{
 		SpringApplication.run(CursomcApplication.class, args);
 	}
 
+	/*o que será executado ao rodar a aplicação*/
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
